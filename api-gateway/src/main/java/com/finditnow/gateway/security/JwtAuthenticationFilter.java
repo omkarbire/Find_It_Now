@@ -19,10 +19,11 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
     // Endpoints that DON'T require JWT (open)
     private static final List<String> OPEN_API_ENDPOINTS = List.of(
-            "/auth/login",
-            "/auth/register",
-            "/actuator" // actuator of gateway/auth if you want open
+            "/api/auth/login",
+            "/api/auth/register",
+            "/actuator"
     );
+
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;

@@ -1,0 +1,33 @@
+server:
+  port: 0 # random, Eureka will handle
+
+spring:
+  application:
+    name: shop-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finditnow
+    username: postgres
+    password: omkar
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug

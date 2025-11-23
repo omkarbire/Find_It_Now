@@ -7,18 +7,46 @@ spring:
 
   cloud:
     gateway:
+      # ✅ CORS CONFIG
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"   # 👈 your frontend URL
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+
+      # ✅ ROUTES
       routes:
+        # ========== AUTH SERVICE ==========
         - id: auth-service
           uri: lb://auth-service
           predicates:
-            - Path=/auth/**
+            - Path=/api/auth/**          # external path
+          filters:
+            - StripPrefix=1              # /api/auth -> /auth (inside auth-service)
+
+        # ========== USER SERVICE ==========
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users/**
+            - Path=/api/users/**         # external path
+          filters:
+            - StripPrefix=1              # /api/users -> /users (inside user-service)
+
+        # ========== SHOP SERVICE (includes inventory) ==========
+        - id: shop-service
+          uri: lb://shop-service
+          predicates:
+            - Path=/api/shops/**         # external path
+          filters:
+            - StripPrefix=1              # /api/shops -> /shops (inside shop-service)
+
       discovery:
         locator:
-          enabled: true
+          enabled: true                  # optional: /service-id/** style routing
           lower-case-service-id: true
 
 eureka:
@@ -30,8 +58,11 @@ eureka:
   instance:
     prefer-ip-address: true
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+jwt:
+  # used by JwtUtil / JwtAuthenticationFilter in gateway
+  secret: this-is-a-very-long-secret-key-123456
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    # org.springframework.cloud.gateway: DEBUG   # uncomment for detailed routing logs

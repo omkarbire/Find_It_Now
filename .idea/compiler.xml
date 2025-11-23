@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
+        <module name="shop-service" />
         <module name="user-service" />
         <module name="service-registry" />
         <module name="notification-service" />
@@ -30,11 +31,11 @@
         </processorPath>
         <module name="delivery-service" />
         <module name="order-service" />
-        <module name="inventory-service" />
         <module name="search-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="inventory-service" target="17" />
       <module name="untitled" target="21" />
     </bytecodeTargetLevel>
   </component>
@@ -48,6 +49,7 @@
       <module name="order-service" options="-parameters" />
       <module name="search-service" options="-parameters" />
       <module name="service-registry" options="-parameters" />
+      <module name="shop-service" options="" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>
